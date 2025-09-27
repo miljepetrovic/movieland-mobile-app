@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
+import '../constants/design_tokens.dart';
 
 /// App theme configuration following Material Design principles
 /// Based on the Android MovieLand app design
@@ -27,35 +28,36 @@ class AppTheme {
       ),
 
       // AppBar Theme
-      appBarTheme: const AppBarTheme(
-        elevation: 0,
+      appBarTheme: AppBarTheme(
+        elevation: DesignTokens.elevationNone,
         centerTitle: false,
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.onPrimary,
         titleTextStyle: TextStyle(
           color: AppColors.onPrimary,
-          fontSize: 20,
+          fontSize: DesignTokens.fontTitleLarge,
           fontWeight: FontWeight.w500,
           letterSpacing: 0.15,
         ),
         iconTheme: IconThemeData(
           color: AppColors.onPrimary,
+          size: DesignTokens.appBarIconSize,
         ),
       ),
 
       // Tab Bar Theme
-      tabBarTheme: const TabBarTheme(
+      tabBarTheme: TabBarTheme(
         labelColor: AppColors.onPrimary,
         unselectedLabelColor: AppColors.greyLight,
         indicatorColor: AppColors.primaryLight, // Using accent color for indicator
         indicatorSize: TabBarIndicatorSize.tab,
         labelStyle: TextStyle(
-          fontSize: 14,
+          fontSize: DesignTokens.fontLabelLarge,
           fontWeight: FontWeight.w600, // Made bolder to match Android app
           letterSpacing: 0.5, // Slightly increased letter spacing
         ),
         unselectedLabelStyle: TextStyle(
-          fontSize: 14,
+          fontSize: DesignTokens.fontLabelLarge,
           fontWeight: FontWeight.w500, // Slightly bolder for unselected too
           letterSpacing: 0.1,
         ),
@@ -64,32 +66,35 @@ class AppTheme {
 
       // Card Theme
       cardTheme: CardTheme(
-        elevation: 2,
+        elevation: DesignTokens.elevationSmall,
         color: AppColors.cardBackground,
         shadowColor: AppColors.cardShadow,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
         ),
-        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        margin: EdgeInsets.symmetric(
+          horizontal: DesignTokens.spaceSmall,
+          vertical: DesignTokens.spaceExtraSmall,
+        ),
       ),
 
       // Text Theme
-      textTheme: const TextTheme(
+      textTheme: TextTheme(
         // Headlines
         headlineLarge: TextStyle(
-          fontSize: 32,
+          fontSize: DesignTokens.fontHeadlineLarge,
           fontWeight: FontWeight.w400,
           letterSpacing: 0,
           color: AppColors.onSurface,
         ),
         headlineMedium: TextStyle(
-          fontSize: 28,
+          fontSize: DesignTokens.fontHeadlineMedium,
           fontWeight: FontWeight.w400,
           letterSpacing: 0,
           color: AppColors.onSurface,
         ),
         headlineSmall: TextStyle(
-          fontSize: 24,
+          fontSize: DesignTokens.fontHeadlineSmall,
           fontWeight: FontWeight.w400,
           letterSpacing: 0,
           color: AppColors.onSurface,
@@ -97,19 +102,19 @@ class AppTheme {
 
         // Titles
         titleLarge: TextStyle(
-          fontSize: 22,
+          fontSize: DesignTokens.fontTitleLarge,
           fontWeight: FontWeight.w500,
           letterSpacing: 0,
           color: AppColors.onSurface,
         ),
         titleMedium: TextStyle(
-          fontSize: 16,
+          fontSize: DesignTokens.fontTitleMedium,
           fontWeight: FontWeight.w500,
           letterSpacing: 0.15,
           color: AppColors.onSurface,
         ),
         titleSmall: TextStyle(
-          fontSize: 14,
+          fontSize: DesignTokens.fontTitleSmall,
           fontWeight: FontWeight.w500,
           letterSpacing: 0.1,
           color: AppColors.onSurface,
@@ -117,21 +122,21 @@ class AppTheme {
 
         // Body Text
         bodyLarge: TextStyle(
-          fontSize: 16,
+          fontSize: DesignTokens.fontBodyLarge,
           fontWeight: FontWeight.w400,
           letterSpacing: 0.5,
           color: AppColors.onSurface,
           height: 1.5,
         ),
         bodyMedium: TextStyle(
-          fontSize: 14,
+          fontSize: DesignTokens.fontBodyMedium,
           fontWeight: FontWeight.w400,
           letterSpacing: 0.25,
           color: AppColors.onSurface,
           height: 1.43,
         ),
         bodySmall: TextStyle(
-          fontSize: 12,
+          fontSize: DesignTokens.fontBodySmall,
           fontWeight: FontWeight.w400,
           letterSpacing: 0.4,
           color: AppColors.grey,
@@ -140,19 +145,19 @@ class AppTheme {
 
         // Labels
         labelLarge: TextStyle(
-          fontSize: 14,
+          fontSize: DesignTokens.fontLabelLarge,
           fontWeight: FontWeight.w500,
           letterSpacing: 0.1,
           color: AppColors.onSurface,
         ),
         labelMedium: TextStyle(
-          fontSize: 12,
+          fontSize: DesignTokens.fontLabelMedium,
           fontWeight: FontWeight.w500,
           letterSpacing: 0.5,
           color: AppColors.onSurface,
         ),
         labelSmall: TextStyle(
-          fontSize: 11,
+          fontSize: DesignTokens.fontLabelSmall,
           fontWeight: FontWeight.w500,
           letterSpacing: 0.5,
           color: AppColors.grey,
@@ -169,9 +174,9 @@ class AppTheme {
       ),
 
       // Icon Theme
-      iconTheme: const IconThemeData(
+      iconTheme: IconThemeData(
         color: AppColors.grey,
-        size: 24,
+        size: DesignTokens.defaultIconSize,
       ),
 
       // Elevated Button Theme
@@ -179,11 +184,14 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: AppColors.onPrimary,
-          elevation: 2,
+          elevation: DesignTokens.elevationSmall,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: EdgeInsets.symmetric(
+            horizontal: DesignTokens.buttonPadding,
+            vertical: DesignTokens.spaceSmall,
+          ),
         ),
       ),
 
@@ -191,7 +199,10 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: EdgeInsets.symmetric(
+            horizontal: DesignTokens.buttonPadding,
+            vertical: DesignTokens.spaceSmall,
+          ),
         ),
       ),
     );

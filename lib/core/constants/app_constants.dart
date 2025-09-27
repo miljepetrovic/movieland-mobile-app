@@ -1,12 +1,15 @@
+import 'design_tokens.dart';
+
 /// Application-wide constants for text, numbers, and configuration values
+/// Design tokens (spacing, typography) are imported from design_tokens.dart
 class AppConstants {
   AppConstants._();
 
-  // App Information
+  // ==================== APP INFORMATION ====================
   static const String appName = 'MovieLand';
   static const String appTitle = 'MovieLand';
 
-  // Tab Configuration
+  // ==================== TAB CONFIGURATION ====================
   static const int tabCount = 3;
 
   // Tab Names
@@ -14,25 +17,29 @@ class AppConstants {
   static const String topRatedTab = 'TOP RATED';
   static const String upcomingTab = 'UPCOMING';
 
-  // Placeholder Text
+  // ==================== PLACEHOLDER TEXT ====================
   static const String popularMoviesTitle = 'Popular Movies';
   static const String topRatedMoviesTitle = 'Top Rated Movies';
   static const String upcomingMoviesTitle = 'Upcoming Movies';
   static const String comingSoonText = 'Coming soon...';
 
-  // Icon Sizes
-  static const double placeholderIconSize = 64.0;
+  // ==================== DESIGN TOKEN REFERENCES ====================
+  // These reference the centralized design tokens for consistency
 
-  // Spacing Constants
-  static const double spacingSmall = 8.0;
-  static const double spacingMedium = 16.0;
-  static const double spacingLarge = 24.0;
+  // Icon Sizes (from design tokens)
+  static double get placeholderIconSize => DesignTokens.placeholderIconSize;
 
-  // Text Sizes
-  static const double titleFontSize = 24.0;
-  static const double subtitleFontSize = 16.0;
-  static const double tabFontSize = 14.0;
+  // Spacing Constants (from design tokens)
+  static double get spacingSmall => DesignTokens.spaceSmall;
+  static double get spacingMedium => DesignTokens.spaceLarge;
+  static double get spacingLarge => DesignTokens.spaceDoubleExtraLarge;
 
+  // Text Sizes (from design tokens)
+  static double get titleFontSize => DesignTokens.titleFontSize;
+  static double get subtitleFontSize => DesignTokens.subtitleFontSize;
+  static double get tabFontSize => DesignTokens.tabFontSize;
+
+  // ==================== DATA COLLECTIONS ====================
   // Tab Labels List (for easy iteration)
   static const List<String> tabLabels = [
     popularTab,
