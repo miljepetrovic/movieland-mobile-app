@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout:*)",
+      "Read(//Users/miljepetrovic/Workspace/Projects/MovieLand-Android-App/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
