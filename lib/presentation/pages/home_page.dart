@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../core/constants/app_constants.dart';
+import '../widgets/popular/popular_page_content.dart';
+import '../widgets/top_rated/top_rated_page_content.dart';
+import '../widgets/upcoming/upcoming_page_content.dart';
 
 /// Home page implementing tab-based navigation for movie categories
 /// Follows the design from the Android MovieLand app
@@ -58,28 +61,7 @@ class _PopularMoviesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.movie, size: AppConstants.placeholderIconSize, color: Colors.grey),
-          SizedBox(height: AppConstants.spacingMedium),
-          Text(
-            AppConstants.popularMoviesTitle,
-            style: TextStyle(
-              fontSize: AppConstants.titleFontSize,
-              fontWeight: FontWeight.w500,
-              color: Colors.grey,
-            ),
-          ),
-          SizedBox(height: AppConstants.spacingSmall),
-          Text(
-            AppConstants.comingSoonText,
-            style: TextStyle(fontSize: AppConstants.subtitleFontSize, color: Colors.grey),
-          ),
-        ],
-      ),
-    );
+    return const PopularPageContent();
   }
 }
 
@@ -89,28 +71,7 @@ class _TopRatedMoviesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.star, size: AppConstants.placeholderIconSize, color: Colors.grey),
-          SizedBox(height: AppConstants.spacingMedium),
-          Text(
-            AppConstants.topRatedMoviesTitle,
-            style: TextStyle(
-              fontSize: AppConstants.titleFontSize,
-              fontWeight: FontWeight.w500,
-              color: Colors.grey,
-            ),
-          ),
-          SizedBox(height: AppConstants.spacingSmall),
-          Text(
-            AppConstants.comingSoonText,
-            style: TextStyle(fontSize: AppConstants.subtitleFontSize, color: Colors.grey),
-          ),
-        ],
-      ),
-    );
+    return const TopRatedPageContent();
   }
 }
 
@@ -120,27 +81,6 @@ class _UpcomingMoviesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.upcoming, size: AppConstants.placeholderIconSize, color: Colors.grey),
-          SizedBox(height: AppConstants.spacingMedium),
-          Text(
-            AppConstants.upcomingMoviesTitle,
-            style: TextStyle(
-              fontSize: AppConstants.titleFontSize,
-              fontWeight: FontWeight.w500,
-              color: Colors.grey,
-            ),
-          ),
-          SizedBox(height: AppConstants.spacingSmall),
-          Text(
-            AppConstants.comingSoonText,
-            style: TextStyle(fontSize: AppConstants.subtitleFontSize, color: Colors.grey),
-          ),
-        ],
-      ),
-    );
+    return const UpcomingPageContent();
   }
 }
