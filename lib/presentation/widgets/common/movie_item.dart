@@ -62,9 +62,11 @@ class _MovieInfo extends StatelessWidget {
         children: [
           _MovieTitle(title: title),
           SizedBox(height: DesignTokens.spaceExtraSmall),
-          _MovieDescription(description: description),
+          Expanded(
+            child: _MovieDescription(description: description),
+          ),
           if (bottomWidget != null) ...[
-            SizedBox(height: DesignTokens.spaceMedium),
+            SizedBox(height: DesignTokens.spaceExtraSmall),
             bottomWidget!,
           ],
         ],

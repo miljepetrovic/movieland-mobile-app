@@ -1,33 +1,29 @@
 import 'package:flutter/material.dart';
+import '../../../domain/entities/movie.dart';
+import '../../../core/constants/api_constants.dart';
 import '../common/movie_item.dart';
 import 'popular_bottom_row.dart';
 
 /// Popular movie item with year and vote count
 class PopularMovieItem extends StatelessWidget {
-  final String title;
-  final String description;
-  final String year;
-  final int voteCount;
-  final String? posterUrl;
+  final Movie movie;
 
   const PopularMovieItem({
     super.key,
-    required this.title,
-    required this.description,
-    required this.year,
-    required this.voteCount,
-    this.posterUrl,
+    required this.movie,
   });
 
   @override
   Widget build(BuildContext context) {
     return MovieItem(
-      title: title,
-      description: description,
-      posterUrl: posterUrl,
+      title: movie.title,
+      description: movie.overview,
+      posterUrl: movie.posterPath != null
+          ? '${ApiConstants.imageBaseUrl}${movie.posterPath}'
+          : null,
       bottomWidget: PopularBottomRow(
-        year: year,
-        voteCount: voteCount,
+        year: movie.releaseDate.year.toString(),
+        voteCount: movie.voteCount,
       ),
     );
   }
