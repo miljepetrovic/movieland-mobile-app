@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/top_rated_movies/top_rated_movies_bloc.dart';
 import '../../bloc/top_rated_movies/top_rated_movies_event.dart';
 import '../../bloc/top_rated_movies/top_rated_movies_state.dart';
+import '../../bloc/movie_status.dart';
 import '../common/loading.dart';
 import '../common/app_error.dart';
 import 'top_rated_movies_loaded_content.dart';
@@ -28,30 +29,25 @@ class _TopRatedPageContentState extends State<TopRatedPageContent> {
   Widget build(BuildContext context) {
     return BlocBuilder<TopRatedMoviesBloc, TopRatedMoviesState>(
       builder: (context, state) {
-        if (state is TopRatedMoviesLoading) {
-          return const Loading(
-            message: 'Loading top rated movies...',
-          );
+        switch (state.status) {
+          case MovieStatus.initial:
+            return const SizedBox.shrink();
+          case MovieStatus.loading:
+            return const Loading();
+          case MovieStatus.failure:
+            return AppError(
+              message: state.errorMessage ?? 'Unknown error occurred',
+              onRetry: () => context
+                  .read<TopRatedMoviesBloc>()
+                  .add(const LoadTopRatedMovies()),
+              retryButtonText: 'Reload Movies',
+            );
+          case MovieStatus.success:
+            return TopRatedMoviesLoadedContent(
+              movies: state.movies,
+              hasReachedMax: state.hasReachedMax,
+            );
         }
-
-        if (state is TopRatedMoviesError) {
-          return AppError(
-            message: state.message,
-            onRetry: () => context
-                .read<TopRatedMoviesBloc>()
-                .add(const LoadTopRatedMovies()),
-            retryButtonText: 'Reload Movies',
-          );
-        }
-
-        if (state is TopRatedMoviesLoaded) {
-          return TopRatedMoviesLoadedContent(
-            movies: state.movies,
-            hasReachedMax: state.hasReachedMax,
-          );
-        }
-
-        return const SizedBox.shrink();
       },
     );
   }

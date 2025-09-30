@@ -3,6 +3,7 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:stream_transform/stream_transform.dart';
 import '../../../domain/use_cases/get_top_rated_movies_use_case.dart';
 import '../../../domain/use_cases/params/movie_params.dart';
+import '../movie_status.dart';
 import 'top_rated_movies_event.dart';
 import 'top_rated_movies_state.dart';
 
@@ -15,13 +16,10 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 class TopRatedMoviesBloc extends Bloc<TopRatedMoviesEvent, TopRatedMoviesState> {
   final GetTopRatedMoviesUseCase _getTopRatedMoviesUseCase;
 
-  int _currentPage = 1;
-  bool _hasReachedMax = false;
-
   TopRatedMoviesBloc({
     required GetTopRatedMoviesUseCase getTopRatedMoviesUseCase,
   })  : _getTopRatedMoviesUseCase = getTopRatedMoviesUseCase,
-        super(const TopRatedMoviesInitial()) {
+        super(const TopRatedMoviesState()) {
 
     // Initial load - no throttling needed
     on<LoadTopRatedMovies>(_onLoadTopRatedMovies);
@@ -37,25 +35,28 @@ class TopRatedMoviesBloc extends Bloc<TopRatedMoviesEvent, TopRatedMoviesState> 
     LoadTopRatedMovies event,
     Emitter<TopRatedMoviesState> emit,
   ) async {
-    emit(const TopRatedMoviesLoading());
+    emit(state.copyWith(status: MovieStatus.loading));
 
     try {
-      _currentPage = 1;
-      _hasReachedMax = false;
-
       final movieResponse = await _getTopRatedMoviesUseCase(
         const GetMoviesParams(page: 1),
       );
 
-      _hasReachedMax = movieResponse.movies.isEmpty ||
+      final hasReachedMax = movieResponse.movies.isEmpty ||
           movieResponse.page >= movieResponse.totalPages;
 
-      emit(TopRatedMoviesLoaded(
+      emit(state.copyWith(
+        status: MovieStatus.success,
         movies: movieResponse.movies,
-        hasReachedMax: _hasReachedMax,
+        currentPage: 1,
+        hasReachedMax: hasReachedMax,
+        errorMessage: null,
       ));
     } catch (e) {
-      emit(TopRatedMoviesError(message: e.toString()));
+      emit(state.copyWith(
+        status: MovieStatus.failure,
+        errorMessage: e.toString(),
+      ));
     }
   }
 
@@ -63,27 +64,31 @@ class TopRatedMoviesBloc extends Bloc<TopRatedMoviesEvent, TopRatedMoviesState> 
     LoadMoreTopRatedMovies event,
     Emitter<TopRatedMoviesState> emit,
   ) async {
-    if (_hasReachedMax) return;
-
-    final currentState = state;
-    if (currentState is! TopRatedMoviesLoaded) return;
+    if (state.hasReachedMax || state.status != MovieStatus.success) return;
 
     try {
-      _currentPage++;
+      final nextPage = state.currentPage + 1;
 
       final movieResponse = await _getTopRatedMoviesUseCase(
-        GetMoviesParams(page: _currentPage),
+        GetMoviesParams(page: nextPage),
       );
 
-      _hasReachedMax = movieResponse.movies.isEmpty ||
+      final hasReachedMax = movieResponse.movies.isEmpty ||
           movieResponse.page >= movieResponse.totalPages;
 
-      emit(TopRatedMoviesLoaded(
-        movies: [...currentState.movies, ...movieResponse.movies],
-        hasReachedMax: _hasReachedMax,
+      emit(state.copyWith(
+        status: MovieStatus.success,
+        movies: [...state.movies, ...movieResponse.movies],
+        currentPage: nextPage,
+        hasReachedMax: hasReachedMax,
+        errorMessage: null,
       ));
     } catch (e) {
-      emit(TopRatedMoviesError(message: e.toString()));
+      // Keep status as success to preserve visible movies
+      // Only set error message for potential Snackbar/Toast notification
+      emit(state.copyWith(
+        errorMessage: e.toString(),
+      ));
     }
   }
 }

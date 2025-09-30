@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/popular_movies/popular_movies_bloc.dart';
 import '../../bloc/popular_movies/popular_movies_event.dart';
 import '../../bloc/popular_movies/popular_movies_state.dart';
+import '../../bloc/movie_status.dart';
 import '../common/loading.dart';
 import '../common/app_error.dart';
 import 'popular_movies_loaded_content.dart';
@@ -28,30 +29,25 @@ class _PopularPageContentState extends State<PopularPageContent> {
   Widget build(BuildContext context) {
     return BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
       builder: (context, state) {
-        if (state is PopularMoviesLoading) {
-          return const Loading(
-            message: 'Loading popular movies...',
-          );
+        switch (state.status) {
+          case MovieStatus.initial:
+            return const SizedBox.shrink();
+          case MovieStatus.loading:
+            return const Loading();
+          case MovieStatus.failure:
+            return AppError(
+              message: state.errorMessage ?? 'Unknown error occurred',
+              onRetry: () => context
+                  .read<PopularMoviesBloc>()
+                  .add(const LoadPopularMovies()),
+              retryButtonText: 'Reload Movies',
+            );
+          case MovieStatus.success:
+            return PopularMoviesLoadedContent(
+              movies: state.movies,
+              hasReachedMax: state.hasReachedMax,
+            );
         }
-
-        if (state is PopularMoviesError) {
-          return AppError(
-            message: state.message,
-            onRetry: () => context
-                .read<PopularMoviesBloc>()
-                .add(const LoadPopularMovies()),
-            retryButtonText: 'Reload Movies',
-          );
-        }
-
-        if (state is PopularMoviesLoaded) {
-          return PopularMoviesLoadedContent(
-            movies: state.movies,
-            hasReachedMax: state.hasReachedMax,
-          );
-        }
-
-        return const SizedBox.shrink();
       },
     );
   }

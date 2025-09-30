@@ -1,49 +1,44 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/movie.dart';
+import '../movie_status.dart';
 
-abstract class TopRatedMoviesState extends Equatable {
-  const TopRatedMoviesState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class TopRatedMoviesInitial extends TopRatedMoviesState {
-  const TopRatedMoviesInitial();
-}
-
-class TopRatedMoviesLoading extends TopRatedMoviesState {
-  const TopRatedMoviesLoading();
-}
-
-class TopRatedMoviesLoaded extends TopRatedMoviesState {
-  final List<Movie> movies;
-  final bool hasReachedMax;
-
-  const TopRatedMoviesLoaded({
-    required this.movies,
-    required this.hasReachedMax,
+final class TopRatedMoviesState extends Equatable {
+  const TopRatedMoviesState({
+    this.status = MovieStatus.initial,
+    this.movies = const <Movie>[],
+    this.currentPage = 1,
+    this.hasReachedMax = false,
+    this.errorMessage,
   });
 
-  @override
-  List<Object> get props => [movies, hasReachedMax];
+  final MovieStatus status;
+  final List<Movie> movies;
+  final int currentPage;
+  final bool hasReachedMax;
+  final String? errorMessage;
 
-  TopRatedMoviesLoaded copyWith({
+  @override
+  List<Object?> get props => [
+        status,
+        movies,
+        currentPage,
+        hasReachedMax,
+        errorMessage,
+      ];
+
+  TopRatedMoviesState copyWith({
+    MovieStatus? status,
     List<Movie>? movies,
+    int? currentPage,
     bool? hasReachedMax,
+    String? errorMessage,
   }) {
-    return TopRatedMoviesLoaded(
+    return TopRatedMoviesState(
+      status: status ?? this.status,
       movies: movies ?? this.movies,
+      currentPage: currentPage ?? this.currentPage,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
-}
-
-class TopRatedMoviesError extends TopRatedMoviesState {
-  final String message;
-
-  const TopRatedMoviesError({required this.message});
-
-  @override
-  List<Object> get props => [message];
 }
